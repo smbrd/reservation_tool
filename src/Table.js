@@ -58,15 +58,32 @@ const columns = [
   { title: 'Reserved by', dataIndex: 'reserved_by', key: 'reserved_by', className: 'center'},
 ];
 
-var inner = {
+var table_style = {
   display: 'inline-block',
   align: 'center',
+  cursor: 'pointer',
 };
 
+
 export default class Table extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {data: []};
+    }
+
+    componentDidMount() {
+        fetch("data/reservations.json").then((response) => response.json()).then((responseJson) => {
+            this.setState({data: responseJson.data});
+        })
+        .catch((error) => {
+            console.error(error);
+        })
+    }
+
     render(){
         return(
-            <RcTable style={inner} columns={columns} data={data} onRowClick={onRowClick} />
+            <RcTable style={table_style} columns={columns} data={this.state.data} onRowClick={onRowClick} />
         )
     }
-}
+};
+
