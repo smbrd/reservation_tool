@@ -1,11 +1,19 @@
 import React from "react";
 import RcTable from "rc-table";
+import Cookies from "z-cookies";
 require('rc-table/assets/index.css');
 require('rc-table/assets/animation.css');
 
 
 function getCurrentUser(){
-    return "Mateusz M.";
+    var name = Cookies.get("name");
+
+    if ( !name )
+        name = window.prompt("Name, please", "");
+    if ( name )
+        Cookies.set("name", name);
+
+    return name;
 }
 
 function sendReservationChange(carrier, user){
@@ -24,6 +32,9 @@ function releaseReservation(carrier){
 
 const onRowClick = (record, index, event) => {
     var currentUser = getCurrentUser();
+
+    if( !currentUser )
+        return;
     
     if(record.reserved_by){
         if(record.reserved_by == currentUser){

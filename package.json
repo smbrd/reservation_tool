@@ -28,7 +28,8 @@
     "reactcss": "^1.0.9",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.2",
-    "webpack-dev-server": "^1.16.2"
+    "webpack-dev-server": "^1.16.2",
+    "z-cookies": "^1.0.2"
   },
   "devDependencies": {
     "babel-core": "^6.17.0",
