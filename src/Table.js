@@ -82,13 +82,17 @@ export default class Table extends React.Component{
         this.state = {data: []};
     }
 
-    componentDidMount() {
+    fetch(){
         fetch("data/reservations.json").then((response) => response.json()).then((responseJson) => {
             this.setState({data: responseJson.data});
         })
         .catch((error) => {
             console.error(error);
         })
+    }
+
+    componentDidMount() {
+        setInterval(this.fetch.bind(this), 1000);
     }
 
     render(){
