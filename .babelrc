@@ -1,0 +1,12 @@
+{
+  "plugins": [
+    "react-html-attrs",
+    "transform-class-properties",
+    "transform-decorators-legacy"
+  ],
+  "ignore": [
+    "node_modules/**/*.js"
+  ],
+  "presets": ["es2015", "stage-0", "react"]
+}
+

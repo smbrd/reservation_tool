@@ -1,8 +1,8 @@
 import React from "react";
 import RcTable from "rc-table";
 import Cookies from "z-cookies";
-require('rc-table/assets/index.css');
-require('rc-table/assets/animation.css');
+import 'rc-table/assets/index.css';
+import 'rc-table/assets/animation.css';
 
 
 function getCurrentUser(){
@@ -57,13 +57,6 @@ const onRowClick = (record, index, event) => {
     */
 };
 
-
-const data = [
-  { carrier: 'AA', reserved_by: 'Mateusz M.'},
-  { carrier: 'AB', reserved_by: 'smbrd'},
-  { carrier: '11'},
-];
-
 const columns = [
   { title: 'Carrier', dataIndex: 'carrier', key: 'carrier', className: 'center' },
   { title: 'Reserved by', dataIndex: 'reserved_by', key: 'reserved_by', className: 'center'},
@@ -71,12 +64,11 @@ const columns = [
 
 var table_style = {
   display: 'inline-block',
-  align: 'center',
   cursor: 'pointer',
 };
 
 
-export default class Table extends React.Component{
+export default class Reservations extends React.Component{
     constructor(props) {
         super(props);
         this.state = {data: []};

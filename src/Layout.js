@@ -1,5 +1,5 @@
 import React from "react";
-import Table from "./Table.js";
+import Reservations from "./Reservations.js";
 import Legend from "./Legend";
 
 var canvas = {
@@ -12,7 +12,7 @@ export default class Layout extends React.Component {
     render(){
         return (
             <div style={canvas}>
-                <Table />
+                <Reservations />
                 <Legend />
             </div>
             );
