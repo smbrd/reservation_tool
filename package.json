@@ -31,6 +31,8 @@
     "z-cookies": "^1.0.2"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
+    "jsonfile": "^2.4.0",
     "react": "^0.14.6",
     "react-dom": "^0.14.6"
   }

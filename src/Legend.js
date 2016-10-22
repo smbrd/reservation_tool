@@ -11,9 +11,9 @@ export default class Legend extends React.Component{
     render(){
         return(
             <div style={style}>
-                Reserve: click not reserved
-                <br />
                 Release: click reserved
+                <br />
+                Reserve: click not reserved or someone else's reservation
             </div>
         )
     }

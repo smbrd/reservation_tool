@@ -1,3 +1,6 @@
-.center{
+.reservations{
     text-align: center;
+    font-size: 18px;
+    color: #000000;
+    border-radius:5px;
 }

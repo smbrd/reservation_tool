@@ -1,7 +1,1 @@
-{
-    "data": [
-        { "carrier": "AA", "reserved_by": "Mateusz M."},
-        { "carrier": "EY", "reserved_by": "smbrd"},
-        { "carrier": "K0"}
-    ]
-}
+{"data":[{"carrier":"AA","user":"","date":"Sat Oct 22 2016"},{"carrier":"11","user":"","date":"Sat Oct 22 2016"},{"carrier":"AC","user":"Mateusz M.","date":"Sat Oct 22 2016"},{"carrier":"AD","user":"Mateusz M.","date":"Sat Oct 22 2016"},{"carrier":"AE","user":"","date":"Sat Oct 22 2016"}]}

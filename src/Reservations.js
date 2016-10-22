@@ -1,6 +1,7 @@
 import React from "react";
 import RcTable from "rc-table";
 import Cookies from "z-cookies";
+import _ from "lodash";
 import 'rc-table/assets/index.css';
 import 'rc-table/assets/animation.css';
 
@@ -16,8 +17,22 @@ function getCurrentUser(){
     return name;
 }
 
-function sendReservationChange(carrier, user){
+function today(){
+    return new Date().toDateString();
+}
 
+function sendReservationChange(carrier, user){
+    fetch('/change_reservation', {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            carrier: carrier,
+            user: user,
+            date: today()
+        })
+    });
 }
 
 function reserve(carrier, user){
@@ -36,8 +51,8 @@ const onRowClick = (record, index, event) => {
     if( !currentUser )
         return;
     
-    if(record.reserved_by){
-        if(record.reserved_by == currentUser){
+    if(record.user){
+        if(record.user == currentUser){
             releaseReservation(record.carrier);
         }
         else{
@@ -49,17 +64,11 @@ const onRowClick = (record, index, event) => {
     else{
         reserve(record.carrier, currentUser);
     }
-  
-    /*
-    if (event.shiftKey) {
-        console.log('Shift + mouse click triggered.');
-    }
-    */
 };
 
 const columns = [
-  { title: 'Carrier', dataIndex: 'carrier', key: 'carrier', className: 'center' },
-  { title: 'Reserved by', dataIndex: 'reserved_by', key: 'reserved_by', className: 'center'},
+  { title: 'Carrier', dataIndex: 'carrier', key: 'carrier', className: 'reservations' },
+  { title: 'Reserved by', dataIndex: 'user', key: 'user', className: 'reservations'},
 ];
 
 var table_style = {
@@ -67,6 +76,11 @@ var table_style = {
   cursor: 'pointer',
 };
 
+function checkIfCurrentReservation(reservation){
+    if( reservation.date != today() )
+        reservation.user = "";
+    return reservation;
+}
 
 export default class Reservations extends React.Component{
     constructor(props) {
@@ -76,7 +90,9 @@ export default class Reservations extends React.Component{
 
     fetch(){
         fetch("data/reservations.json").then((response) => response.json()).then((responseJson) => {
-            this.setState({data: responseJson.data});
+            var sortedReservations = _.sortBy(responseJson.data, ["carrier"]);
+            var currentReservations = _.map(sortedReservations, checkIfCurrentReservation);
+            this.setState({data: currentReservations});
         })
         .catch((error) => {
             console.error(error);
