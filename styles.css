@@ -4,3 +4,10 @@
     color: #000000;
     border-radius:5px;
 }
+.rc-table tr:hover {
+  background: #d4ffd8;
+}
+
+.rc-table th {
+    background: #d4ffd8;
+}

@@ -1,24 +1,49 @@
-import React from "react";
-import RcTable from "rc-table";
-import Cookies from "z-cookies";
-import _ from "lodash";
+import React from 'react';
+import RcTable from 'rc-table';
+import Cookies from 'z-cookies';
+import _ from 'lodash';
 import 'rc-table/assets/index.css';
 import 'rc-table/assets/animation.css';
+import '../styles.css';
 
 
 function getCurrentUser(){
-    var name = Cookies.get("name");
+    var name = Cookies.get('name');
 
     if ( !name )
-        name = window.prompt("Name, please", "");
+        name = window.prompt('Name, please', '');
     if ( name )
-        Cookies.set("name", name);
+        Cookies.set('name', name);
 
     return name;
 }
 
 function today(){
     return new Date().toDateString();
+}
+
+function expires(){
+    var expiration = new Date();
+    expiration.setHours(18);
+    expiration.setMinutes(0);
+    expiration.setSeconds(0);
+    return expiration;
+}
+
+function todayStart(){
+    var start = new Date();
+    start.setHours(0);
+    start.setMinutes(0);
+    start.setSeconds(0);
+    return start;
+}
+
+function todayEnd(){
+    var end = new Date();
+    end.setHours(24);
+    end.setMinutes(0);
+    end.setSeconds(0);
+    return end;
 }
 
 function sendReservationChange(carrier, user){
@@ -30,7 +55,7 @@ function sendReservationChange(carrier, user){
         body: JSON.stringify({
             carrier: carrier,
             user: user,
-            date: today()
+            date: new Date()
         })
     });
 }
@@ -56,7 +81,7 @@ const onRowClick = (record, index, event) => {
             releaseReservation(record.carrier);
         }
         else{
-            if(confirm("Are you sure you want to overwrite the reservation?")){
+            if(confirm('Are you sure you want to overwrite the reservation?')){
                 reserve(record.carrier, currentUser);
             }
         }
@@ -76,11 +101,21 @@ var table_style = {
   cursor: 'pointer',
 };
 
-function checkIfCurrentReservation(reservation){
-    if( reservation.date != today() )
-        reservation.user = "";
+function filterCurrentReservation(reservation){
+    if( reservation.date != ''){
+        if( Date.parse(reservation.date) < Date.parse(todayStart()) ){
+            reservation.user = '';
+        }
+
+        console.log();
+
+        if( Date.parse(reservation.date) < Date.parse(expires()) && Date.parse(expires()) < Date.parse(new Date())){
+            reservation.user = '';
+        }
+    }
     return reservation;
 }
+
 
 export default class Reservations extends React.Component{
     constructor(props) {
@@ -89,9 +124,9 @@ export default class Reservations extends React.Component{
     }
 
     fetch(){
-        fetch("data/reservations.json").then((response) => response.json()).then((responseJson) => {
-            var sortedReservations = _.sortBy(responseJson.data, ["carrier"]);
-            var currentReservations = _.map(sortedReservations, checkIfCurrentReservation);
+        fetch('data/reservations.json').then((response) => response.json()).then((responseJson) => {
+            var sortedReservations = _.sortBy(responseJson.data, ['carrier']);
+            var currentReservations = _.map(sortedReservations, filterCurrentReservation);
             this.setState({data: currentReservations});
         })
         .catch((error) => {
@@ -100,6 +135,7 @@ export default class Reservations extends React.Component{
     }
 
     componentDidMount() {
+        this.fetch();
         setInterval(this.fetch.bind(this), 1000);
     }
 

@@ -36,12 +36,15 @@ serverSettings = {
   },
 };
 
+
+var port = 3003;
+var server = new WebpackDevServer(webpack(config), serverSettings);
+
 function handleRequest(err, result) {
   if (err)
-    return console.log("Error: " + err);
+    return console.log('Error: ' + err);
 
-  console.log('Listening at http://localhost:3000/');
+  console.log('Listening at http://localhost:'+port);
 };
 
-var server = new WebpackDevServer(webpack(config), serverSettings);
-server.listen(3000, 'localhost', handleRequest);
+server.listen(port, '0.0.0.0', handleRequest);
